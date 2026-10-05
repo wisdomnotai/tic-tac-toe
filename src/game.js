@@ -1,32 +1,37 @@
 export const board = [
-    "","","",
-    "","","",
-    "","","",
+    "", "", "",
+    "", "", "",
+    "", "", ""
 ];
 
+// track whose turn it is
 export let currentPlayer = "X";
 
-export const makeMove = (position,player)=>{
-    if (board[position] === ""){
-            board[position] = currentPlayer;
+// function to make a move
+export const makeMove = (position) => {
+    if (board[position] === "") {
+        board[position] = currentPlayer;
 
-            const winner = checkWinner();
-            if (winner){
-                console.log(`${winner} wins!`);
-                return true;
-            }
-            if (currentPlayer === "X"){
-                currentPlayer = "0";
-            }else{
-                currentPlayer = "X";
-            }
-            return true;
+        const winner = checkWinner();
+
+        if (winner) {
+            return winner;
+        }
+
+        if (currentPlayer === "X") {
+            currentPlayer = "O";
+        } else {
+            currentPlayer = "X";
+        }
+
+        return true;
     }
-    return false;
-}
 
-//creating the winnning rules
-export function checkWinner() {
+    return false;
+};
+
+// function to check for a winner
+export const checkWinner = () => {
     const winningLines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -51,4 +56,4 @@ export function checkWinner() {
     }
 
     return null;
-}
+};
