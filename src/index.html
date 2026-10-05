@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Tic Tac Toe</title>
 </head>
 
@@ -11,54 +13,193 @@
     <!-- start screen -->
     <main id="startScreen">
 
+        <div class="topBar">
+            <button id="themeButton">Theme</button>
+        </div>
+
         <h1>Tic Tac Toe</h1>
 
+        <p class="subtitle">
+            Five games. One round.
+        </p>
+
+        <div id="welcomeMessage"></div>
+
         <div id="modeSelection">
-            <button id="botMode">Play vs Bot</button>
-            <button id="multiplayerMode">Multiplayer</button>
+
+            <button id="botMode">
+                Play vs Bot
+            </button>
+
+            <button id="multiplayerMode">
+                Multiplayer
+            </button>
+
         </div>
 
         <div id="nameForm"></div>
 
+        <section id="statsPreview">
+
+            <h2>Your Stats</h2>
+
+            <div class="statsGrid">
+
+                <div>
+                    <span id="totalGames">0</span>
+                    <small>Games</small>
+                </div>
+
+                <div>
+                    <span id="totalWins">0</span>
+                    <small>Wins</small>
+                </div>
+
+                <div>
+                    <span id="totalLosses">0</span>
+                    <small>Losses</small>
+                </div>
+
+                <div>
+                    <span id="bestStreak">0</span>
+                    <small>Best Streak</small>
+                </div>
+
+            </div>
+
+            <button id="resetStats">
+                Reset Stats
+            </button>
+
+        </section>
+
     </main>
+
 
     <!-- game screen -->
     <main id="gameScreen" hidden>
 
+        <div class="gameTopBar">
+
+            <button id="themeButtonGame">
+                Theme
+            </button>
+
+            <span id="gameNumber">
+                Game 1 of 5
+            </span>
+
+            <button id="restart">
+                Restart
+            </button>
+
+        </div>
+
+
         <div id="scoreBoard">
 
             <div class="playerScore">
-                <h2 id="playerOneName">Player 1</h2>
-                <p id="playerOneScore">0</p>
+
+                <h2 id="playerOneName">
+                    Player 1
+                </h2>
+
+                <span class="symbol">
+                    X
+                </span>
+
+                <p id="playerOneScore">
+                    0
+                </p>
+
             </div>
 
+
+            <div class="versus">
+                VS
+            </div>
+
+
             <div class="playerScore">
-                <h2 id="playerTwoName">Player 2</h2>
-                <p id="playerTwoScore">0</p>
+
+                <h2 id="playerTwoName">
+                    Player 2
+                </h2>
+
+                <span class="symbol">
+                    O
+                </span>
+
+                <p id="playerTwoScore">
+                    0
+                </p>
+
             </div>
 
         </div>
 
-        <h1>Tic Tac Toe</h1>
 
-        <p id="status">Player X's turn</p>
+        <p id="status">
+            Player X's turn
+        </p>
+
 
         <div id="boardGrid"></div>
 
-        <button id="restart">Restart Game</button>
+
+        <p id="difficultyDisplay"></p>
 
     </main>
+
 
     <!-- round result -->
     <main id="roundScreen" hidden>
 
-        <h1 id="roundResult"></h1>
+        <div class="resultCard">
 
-        <button id="newRound">New Round</button>
+            <div id="resultIcon">
+                WIN
+            </div>
+
+            <h1 id="roundResult"></h1>
+
+            <div id="finalScore"></div>
+
+            <p id="roundMessage"></p>
+
+            <div class="resultButtons">
+
+                <button id="rematch">
+                    Rematch
+                </button>
+
+                <button id="shareResult">
+                    Share Result
+                </button>
+
+                <button id="newRound">
+                    New Players
+                </button>
+
+            </div>
+
+        </div>
 
     </main>
+
+
+    <!-- celebration overlay -->
+    <div id="celebration" hidden>
+
+        <div id="celebrationText">
+            YOU WIN
+        </div>
+
+    </div>
+
 
     <script type="module" src="./index.js"></script>
 
 </body>
+
 </html>

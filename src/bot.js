@@ -1,5 +1,5 @@
+// get empty spaces
 
-// getting all empty spaces on the board
 const getAvailableMoves = (board) => {
     const moves = [];
 
@@ -13,8 +13,10 @@ const getAvailableMoves = (board) => {
 };
 
 
-// check if someone has won
+// check winner
+
 const getWinner = (board) => {
+
     const winningLines = [
         [0, 1, 2],
         [3, 4, 5],
@@ -26,7 +28,9 @@ const getWinner = (board) => {
         [2, 4, 6]
     ];
 
+
     for (const line of winningLines) {
+
         const [a, b, c] = line;
 
         if (
@@ -38,95 +42,220 @@ const getWinner = (board) => {
         }
     }
 
+
     if (board.every((cell) => cell !== "")) {
         return "draw";
+    }
+
+
+    return null;
+};
+
+
+// random move
+
+const getRandomMove = (board) => {
+
+    const availableMoves = getAvailableMoves(board);
+
+    const randomIndex = Math.floor(
+        Math.random() * availableMoves.length
+    );
+
+    return availableMoves[randomIndex];
+};
+
+
+// find a winning move
+
+const findWinningMove = (board, player) => {
+
+    const availableMoves = getAvailableMoves(board);
+
+    for (const move of availableMoves) {
+
+        board[move] = player;
+
+        const winner = getWinner(board);
+
+        board[move] = "";
+
+        if (winner === player) {
+            return move;
+        }
     }
 
     return null;
 };
 
 
+// medium bot
+
+const getMediumMove = (board) => {
+
+    // try to win
+    const winningMove = findWinningMove(board, "O");
+
+    if (winningMove !== null) {
+        return winningMove;
+    }
+
+
+    // block the player
+    const blockingMove = findWinningMove(board, "X");
+
+    if (blockingMove !== null) {
+        return blockingMove;
+    }
+
+
+    // take center
+    if (board[4] === "") {
+        return 4;
+    }
+
+
+    // take a corner
+    const corners = [0, 2, 6, 8];
+
+    const availableCorners = corners.filter(
+        (corner) => board[corner] === ""
+    );
+
+    if (availableCorners.length > 0) {
+
+        const randomIndex = Math.floor(
+            Math.random() * availableCorners.length
+        );
+
+        return availableCorners[randomIndex];
+    }
+
+
+    return getRandomMove(board);
+};
+
+
 // minimax
+
 const minimax = (board, isBotTurn) => {
+
     const winner = getWinner(board);
 
-    // bot wins
+
     if (winner === "O") {
         return 10;
     }
 
-    // player wins
+
     if (winner === "X") {
         return -10;
     }
 
-    // draw
+
     if (winner === "draw") {
         return 0;
     }
 
 
-    // bot's turn
+    const availableMoves = getAvailableMoves(board);
+
+
     if (isBotTurn) {
+
         let bestScore = -Infinity;
 
-        const availableMoves = getAvailableMoves(board);
 
         for (const move of availableMoves) {
+
             board[move] = "O";
 
             const score = minimax(board, false);
 
             board[move] = "";
 
-            bestScore = Math.max(bestScore, score);
+            bestScore = Math.max(
+                bestScore,
+                score
+            );
         }
+
 
         return bestScore;
     }
 
 
-    // player's turn
     let bestScore = Infinity;
 
-    const availableMoves = getAvailableMoves(board);
 
     for (const move of availableMoves) {
+
         board[move] = "X";
 
         const score = minimax(board, true);
 
         board[move] = "";
 
-        bestScore = Math.min(bestScore, score);
+        bestScore = Math.min(
+            bestScore,
+            score
+        );
     }
+
 
     return bestScore;
 };
 
 
-// choose the best move
-export const getBotMove = (board) => {
-    let bestScore = -Infinity;
-    let bestMove = null;
+// impossible bot
+
+const getImpossibleMove = (board) => {
 
     const availableMoves = getAvailableMoves(board);
 
+    let bestScore = -Infinity;
+
+    let bestMove = null;
+
+
     for (const move of availableMoves) {
-        // temporarily make the move
+
         board[move] = "O";
 
-        const score = minimax(board, false);
+        const score = minimax(
+            board,
+            false
+        );
 
-        // undo the move
         board[move] = "";
 
+
         if (score > bestScore) {
+
             bestScore = score;
+
             bestMove = move;
         }
     }
 
+
     return bestMove;
 };
 
+
+// public bot function
+
+export const getBotMove = (board, difficulty) => {
+
+    if (difficulty === "easy") {
+        return getRandomMove(board);
+    }
+
+
+    if (difficulty === "medium") {
+        return getMediumMove(board);
+    }
+
+
+    return getImpossibleMove(board);
+};
