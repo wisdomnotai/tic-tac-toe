@@ -9,6 +9,12 @@ export let currentPlayer = "X";
 export const makeMove = (position,player)=>{
     if (board[position] === ""){
             board[position] = currentPlayer;
+
+            const winner = checkWinner();
+            if (winner){
+                console.log(`${winner} wins!`);
+                return true;
+            }
             if (currentPlayer === "X"){
                 currentPlayer = "0";
             }else{
