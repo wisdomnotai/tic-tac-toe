@@ -70,5 +70,5 @@ export const restartGame = () => {
     for (let i = 0;i < board.length;i++){
         board[i] = "";
     }
-    currentPlayer = X;
+    currentPlayer = "X";
 }

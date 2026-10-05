@@ -1,0 +1,136 @@
+:root {
+    --text: #dce6e8;
+    --bg: #020202;
+    --cell: #1f2a2d;
+    --x: #0080aa;
+    --o: #c1121f;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    min-height: 100dvh;
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: Arial, sans-serif;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+#startScreen,
+#gameScreen,
+#roundScreen {
+    width: min(90vw, 600px);
+    text-align: center;
+}
+
+#modeSelection {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+#modeSelection button,
+#startGame,
+#restart,
+#newRound {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--cell);
+    color: var(--text);
+}
+
+#nameForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+#nameForm input {
+    width: 250px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+}
+
+#scoreBoard {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.playerScore {
+    min-width: 120px;
+}
+
+.playerScore h2 {
+    margin: 0;
+}
+
+.playerScore p {
+    margin: 5px 0;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+#boardGrid {
+    width: min(90vw, 500px);
+    height: min(90vw, 500px);
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+}
+
+#boardGrid > .cell {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--cell);
+    color: var(--text);
+    font-size: 4rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+#boardGrid > .cell:hover {
+    transform: scale(1.03);
+}
+
+#boardGrid > .cell.x {
+    color: var(--x);
+}
+
+#boardGrid > .cell.o {
+    color: var(--o);
+}
+
+#status {
+    font-size: 1.2rem;
+}
