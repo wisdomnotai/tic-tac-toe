@@ -64,3 +64,11 @@ export const checkWinner = () => {
 export const checkDraw = () => {
     return board.every((cell) => cell !== "");
 }
+
+//restarting the game
+export const restartGame = () => {
+    for (let i = 0;i < board.length;i++){
+        board[i] = "";
+    }
+    currentPlayer = X;
+}
