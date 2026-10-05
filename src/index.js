@@ -1,4 +1,4 @@
-import { board, makeMove, currentPlayer } from "./game.js";
+import { board, makeMove, currentPlayer, checkDraw } from "./game.js";
 
 // make some moves
 makeMove(0); // X
@@ -8,6 +8,8 @@ makeMove(4); // O
 const result = makeMove(2); // X
 
 console.log("Result:", result);
+
+console.log("Draw: ", checkDraw());
 
 // function to display board
 const displayBoard = (board) => {

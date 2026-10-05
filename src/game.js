@@ -17,6 +17,9 @@ export const makeMove = (position) => {
         if (winner) {
             return winner;
         }
+        if (checkDraw()){
+            return "draw";
+        }
 
         if (currentPlayer === "X") {
             currentPlayer = "O";
@@ -57,3 +60,7 @@ export const checkWinner = () => {
 
     return null;
 };
+//function to check for draw
+export const checkDraw = () => {
+    return board.every((cell) => cell !== "");
+}
