@@ -2,20 +2,26 @@ import "./style.css";
 
 import {board,makeMove,currentPlayer,restartGame} from "./game.js";
 
+import { getBotMove } from "./bot.js";
+
+
 // screens
 const startScreen = document.querySelector("#startScreen");
 const gameScreen = document.querySelector("#gameScreen");
 const roundScreen = document.querySelector("#roundScreen");
+
 
 // start screen
 const botModeButton = document.querySelector("#botMode");
 const multiplayerModeButton = document.querySelector("#multiplayerMode");
 const nameForm = document.querySelector("#nameForm");
 
+
 // game screen
 const boardElement = document.querySelector("#boardGrid");
 const statusElement = document.querySelector("#status");
 const restartButton = document.querySelector("#restart");
+
 
 // score elements
 const playerOneNameElement = document.querySelector("#playerOneName");
@@ -24,9 +30,11 @@ const playerTwoNameElement = document.querySelector("#playerTwoName");
 const playerOneScoreElement = document.querySelector("#playerOneScore");
 const playerTwoScoreElement = document.querySelector("#playerTwoScore");
 
+
 // round screen
 const roundResultElement = document.querySelector("#roundResult");
 const newRoundButton = document.querySelector("#newRound");
+
 
 // game state
 let gameOver = false;
@@ -170,13 +178,44 @@ const displayBoard = () => {
 };
 
 
-// handle a move
+// handle the player's move
 const handleMove = (index) => {
     if (gameOver || board[index] !== "") {
         return;
     }
 
     const result = makeMove(index);
+
+    if (result === "X" || result === "O") {
+        finishGame(result);
+        return;
+    }
+
+    if (result === "draw") {
+        finishGame("draw");
+        return;
+    }
+
+    updateStatus();
+
+    displayBoard();
+
+    // let the bot play
+    if (gameMode === "bot" && currentPlayer === "O") {
+        setTimeout(makeBotMove, 500);
+    }
+};
+
+
+// make the bot move
+const makeBotMove = () => {
+    if (gameOver) {
+        return;
+    }
+
+    const botMove = getBotMove(board);
+
+    const result = makeMove(botMove);
 
     if (result === "X" || result === "O") {
         finishGame(result);
@@ -250,7 +289,7 @@ const showRoundResult = () => {
 };
 
 
-// restart current round
+// restart current game
 restartButton.addEventListener("click", () => {
     startNewGame();
 });
