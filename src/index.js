@@ -1,3 +1,3 @@
-import { gameName } from "./game.js";
+import { board } from "./game.js";
 
-console.log(gameName);
+console.log(board);
