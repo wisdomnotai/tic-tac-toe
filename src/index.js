@@ -26,17 +26,11 @@ const roundScreen =
 
 // start screen
 
-const botModeButton =
-    document.querySelector("#botMode");
+const playerNameInput =
+    document.querySelector("#playerNameInput");
 
-const multiplayerModeButton =
-    document.querySelector("#multiplayerMode");
-
-const nameForm =
-    document.querySelector("#nameForm");
-
-const welcomeMessage =
-    document.querySelector("#welcomeMessage");
+const startGameButton =
+    document.querySelector("#startGame");
 
 
 // game screen
@@ -53,23 +47,17 @@ const restartButton =
 const gameNumberElement =
     document.querySelector("#gameNumber");
 
-const difficultyDisplay =
-    document.querySelector("#difficultyDisplay");
-
 
 // scoreboard
 
-const playerOneNameElement =
-    document.querySelector("#playerOneName");
+const playerNameElement =
+    document.querySelector("#playerName");
 
-const playerTwoNameElement =
-    document.querySelector("#playerTwoName");
+const playerScoreElement =
+    document.querySelector("#playerScore");
 
-const playerOneScoreElement =
-    document.querySelector("#playerOneScore");
-
-const playerTwoScoreElement =
-    document.querySelector("#playerTwoScore");
+const botScoreElement =
+    document.querySelector("#botScore");
 
 
 // round screen
@@ -86,269 +74,32 @@ const roundMessageElement =
 const rematchButton =
     document.querySelector("#rematch");
 
-const shareResultButton =
-    document.querySelector("#shareResult");
-
-const newRoundButton =
-    document.querySelector("#newRound");
-
-
-// celebration
-
-const celebration =
-    document.querySelector("#celebration");
-
-
-// stats
-
-const totalGamesElement =
-    document.querySelector("#totalGames");
-
-const totalWinsElement =
-    document.querySelector("#totalWins");
-
-const totalLossesElement =
-    document.querySelector("#totalLosses");
-
-const bestStreakElement =
-    document.querySelector("#bestStreak");
-
-const resetStatsButton =
-    document.querySelector("#resetStats");
-
-
-// theme buttons
-
-const themeButton =
-    document.querySelector("#themeButton");
-
-const themeButtonGame =
-    document.querySelector("#themeButtonGame");
+const newPlayerButton =
+    document.querySelector("#newPlayer");
 
 
 // game state
 
-let gameOver = false;
+let playerName = "";
 
-let gameMode = "";
+let playerScore = 0;
 
-let difficulty = "impossible";
-
-let playerOneName = "";
-
-let playerTwoName = "";
-
-let playerOneScore = 0;
-
-let playerTwoScore = 0;
+let botScore = 0;
 
 let gamesPlayed = 0;
 
+let gameOver = false;
 
-// local statistics
 
-let stats = {
-    games: 0,
-    wins: 0,
-    losses: 0,
-    draws: 0,
-    currentStreak: 0,
-    bestStreak: 0
-};
+// start the round
 
+const startRound = () => {
 
-// load saved data
+    playerName =
+        playerNameInput.value.trim();
 
-const savedStats =
-    localStorage.getItem("ticTacToeStats");
 
-if (savedStats) {
-    stats = JSON.parse(savedStats);
-}
-
-
-// load saved name
-
-const savedName =
-    localStorage.getItem("ticTacToeName");
-
-if (savedName) {
-
-    welcomeMessage.textContent =
-        `Welcome back, ${savedName}.`;
-
-}
-
-
-// save statistics
-
-const saveStats = () => {
-
-    localStorage.setItem(
-        "ticTacToeStats",
-        JSON.stringify(stats)
-    );
-
-    updateStatsDisplay();
-};
-
-
-// update statistics display
-
-const updateStatsDisplay = () => {
-
-    totalGamesElement.textContent =
-        stats.games;
-
-    totalWinsElement.textContent =
-        stats.wins;
-
-    totalLossesElement.textContent =
-        stats.losses;
-
-    bestStreakElement.textContent =
-        stats.bestStreak;
-};
-
-
-updateStatsDisplay();
-
-
-// show name form
-
-const showNameForm = (mode) => {
-
-    gameMode = mode;
-
-
-    if (mode === "bot") {
-
-        nameForm.innerHTML = `
-
-            <h2>Enter your name</h2>
-
-            <input
-                id="playerOneInput"
-                type="text"
-                placeholder="Your name"
-                value="${savedName || ""}"
-            >
-
-            <div id="difficultySelection">
-
-                <button data-difficulty="easy">
-                    Easy
-                </button>
-
-                <button data-difficulty="medium">
-                    Medium
-                </button>
-
-                <button data-difficulty="impossible">
-                    Impossible
-                </button>
-
-            </div>
-
-            <button id="startGame">
-                Start Game
-            </button>
-
-        `;
-
-    } else {
-
-        nameForm.innerHTML = `
-
-            <h2>Enter player names</h2>
-
-            <input
-                id="playerOneInput"
-                type="text"
-                placeholder="Player 1 name"
-            >
-
-            <input
-                id="playerTwoInput"
-                type="text"
-                placeholder="Player 2 name"
-            >
-
-            <button id="startGame">
-                Start Game
-            </button>
-
-        `;
-    }
-
-
-    const difficultyButtons =
-        document.querySelectorAll(
-            "[data-difficulty]"
-        );
-
-
-    difficultyButtons.forEach((button) => {
-
-        button.addEventListener(
-            "click",
-            () => {
-
-                difficulty =
-                    button.dataset.difficulty;
-
-                difficultyButtons.forEach(
-                    (otherButton) => {
-                        otherButton.style.opacity =
-                            "0.5";
-                    }
-                );
-
-                button.style.opacity = "1";
-            }
-        );
-
-    });
-
-
-    const startGameButton =
-        document.querySelector("#startGame");
-
-
-    startGameButton.addEventListener(
-        "click",
-        startGame
-    );
-};
-
-
-// start round
-
-const startGame = () => {
-
-    const playerOneInput =
-        document.querySelector("#playerOneInput");
-
-    const playerTwoInput =
-        document.querySelector("#playerTwoInput");
-
-
-    playerOneName =
-        playerOneInput.value.trim();
-
-
-    if (gameMode === "bot") {
-
-        playerTwoName = "Bot";
-
-    } else {
-
-        playerTwoName =
-            playerTwoInput.value.trim();
-    }
-
-
-    if (playerOneName === "") {
+    if (playerName === "") {
 
         alert("Please enter your name.");
 
@@ -356,28 +107,15 @@ const startGame = () => {
     }
 
 
-    if (
-        gameMode === "multiplayer" &&
-        playerTwoName === ""
-    ) {
+    playerScore = 0;
 
-        alert("Please enter both names.");
-
-        return;
-    }
-
-
-    localStorage.setItem(
-        "ticTacToeName",
-        playerOneName
-    );
-
-
-    playerOneScore = 0;
-
-    playerTwoScore = 0;
+    botScore = 0;
 
     gamesPlayed = 0;
+
+
+    playerNameElement.textContent =
+        playerName;
 
 
     updateScoreboard();
@@ -390,41 +128,11 @@ const startGame = () => {
     roundScreen.hidden = true;
 
 
-    if (gameMode === "bot") {
-
-        difficultyDisplay.textContent =
-            `Difficulty: ${difficulty}`;
-
-    } else {
-
-        difficultyDisplay.textContent = "";
-    }
-
-
     startNewGame();
 };
 
 
-// update scoreboard
-
-const updateScoreboard = () => {
-
-    playerOneNameElement.textContent =
-        playerOneName;
-
-    playerTwoNameElement.textContent =
-        playerTwoName;
-
-
-    playerOneScoreElement.textContent =
-        playerOneScore;
-
-    playerTwoScoreElement.textContent =
-        playerTwoScore;
-};
-
-
-// start one game
+// start a new game
 
 const startNewGame = () => {
 
@@ -438,14 +146,14 @@ const startNewGame = () => {
 
 
     statusElement.textContent =
-        `${playerOneName}'s turn`;
+        `${playerName}'s turn`;
 
 
     displayBoard();
 };
 
 
-// render board
+// display the board
 
 const displayBoard = () => {
 
@@ -482,7 +190,9 @@ const displayBoard = () => {
         button.addEventListener(
             "click",
             () => {
-                handleMove(index);
+
+                handlePlayerMove(index);
+
             }
         );
 
@@ -495,7 +205,7 @@ const displayBoard = () => {
 
 // handle player move
 
-const handleMove = (index) => {
+const handlePlayerMove = (index) => {
 
     if (
         gameOver ||
@@ -505,10 +215,7 @@ const handleMove = (index) => {
     }
 
 
-    if (
-        gameMode === "bot" &&
-        currentPlayer === "O"
-    ) {
+    if (currentPlayer === "O") {
         return;
     }
 
@@ -536,15 +243,12 @@ const handleMove = (index) => {
     }
 
 
-    updateStatus();
-
     displayBoard();
 
+    updateStatus();
 
-    if (
-        gameMode === "bot" &&
-        currentPlayer === "O"
-    ) {
+
+    if (currentPlayer === "O") {
 
         setTimeout(
             makeBotMove,
@@ -554,7 +258,7 @@ const handleMove = (index) => {
 };
 
 
-// bot move
+// make the bot move
 
 const makeBotMove = () => {
 
@@ -566,7 +270,7 @@ const makeBotMove = () => {
     const botMove =
         getBotMove(
             board,
-            difficulty
+            "impossible"
         );
 
 
@@ -593,71 +297,42 @@ const makeBotMove = () => {
     }
 
 
-    updateStatus();
-
     displayBoard();
+
+    updateStatus();
 };
 
 
-// update turn
+// update the turn text
 
 const updateStatus = () => {
 
     if (currentPlayer === "X") {
 
         statusElement.textContent =
-            `${playerOneName}'s turn`;
+            `${playerName}'s turn`;
 
     } else {
 
         statusElement.textContent =
-            `${playerTwoName}'s turn`;
+            "Impossible Bot's turn";
     }
 };
 
 
-// update personal statistics
+// update the scores
 
-const updatePersonalStats = (result) => {
+const updateScoreboard = () => {
 
-    stats.games++;
+    playerScoreElement.textContent =
+        playerScore;
 
-
-    if (
-        gameMode === "bot"
-    ) {
-
-        if (result === "X") {
-
-            stats.wins++;
-
-            stats.currentStreak++;
-
-            stats.bestStreak =
-                Math.max(
-                    stats.bestStreak,
-                    stats.currentStreak
-                );
-
-        } else if (result === "O") {
-
-            stats.losses++;
-
-            stats.currentStreak = 0;
-
-        } else {
-
-            stats.draws++;
-        }
-
-    }
-
-
-    saveStats();
+    botScoreElement.textContent =
+        botScore;
 };
 
 
-// finish game
+// finish the current game
 
 const finishGame = (result) => {
 
@@ -668,28 +343,17 @@ const finishGame = (result) => {
 
     if (result === "X") {
 
-        playerOneScore++;
+        playerScore++;
 
         statusElement.textContent =
-            `${playerOneName} wins!`;
-
-        showCelebration(
-            `${playerOneName} WINS`
-        );
+            `${playerName} wins!`;
 
     } else if (result === "O") {
 
-        playerTwoScore++;
+        botScore++;
 
         statusElement.textContent =
-            `${playerTwoName} wins!`;
-
-        if (gameMode === "bot") {
-
-            showCelebration(
-                "BOT WINS"
-            );
-        }
+            "Impossible Bot wins!";
 
     } else {
 
@@ -697,8 +361,6 @@ const finishGame = (result) => {
             "It's a draw!";
     }
 
-
-    updatePersonalStats(result);
 
     updateScoreboard();
 
@@ -709,7 +371,7 @@ const finishGame = (result) => {
 
         setTimeout(
             showRoundResult,
-            1200
+            1000
         );
 
         return;
@@ -718,36 +380,12 @@ const finishGame = (result) => {
 
     setTimeout(
         startNewGame,
-        1200
+        1000
     );
 };
 
 
-// celebration
-
-const showCelebration = (text) => {
-
-    celebrationText.textContent =
-        text;
-
-    celebration.hidden = false;
-
-
-    setTimeout(() => {
-
-        celebration.hidden = true;
-
-    }, 900);
-};
-
-
-const celebrationText =
-    document.querySelector(
-        "#celebrationText"
-    );
-
-
-// show round result
+// show the round result
 
 const showRoundResult = () => {
 
@@ -757,30 +395,30 @@ const showRoundResult = () => {
 
 
     finalScoreElement.textContent =
-        `${playerOneScore} - ${playerTwoScore}`;
+        `${playerScore} - ${botScore}`;
 
 
     if (
-        playerOneScore >
-        playerTwoScore
+        playerScore >
+        botScore
     ) {
 
         roundResultElement.textContent =
-            `${playerOneName} wins the round`;
+            `${playerName} wins`;
 
         roundMessageElement.textContent =
-            `${playerOneName} won the five-game round.`;
+            "You actually beat the impossible bot.";
 
     } else if (
-        playerTwoScore >
-        playerOneScore
+        botScore >
+        playerScore
     ) {
 
         roundResultElement.textContent =
-            `${playerTwoName} wins the round`;
+            "Impossible Bot wins";
 
         roundMessageElement.textContent =
-            `${playerTwoName} won the five-game round.`;
+            "The bot won the five-game round.";
 
     } else {
 
@@ -788,12 +426,12 @@ const showRoundResult = () => {
             "The round is tied";
 
         roundMessageElement.textContent =
-            "Neither player won the round.";
+            "You survived the impossible bot.";
     }
 };
 
 
-// restart current game
+// restart the current game
 
 restartButton.addEventListener(
     "click",
@@ -805,15 +443,15 @@ restartButton.addEventListener(
 );
 
 
-// rematch
+// play another round
 
 rematchButton.addEventListener(
     "click",
     () => {
 
-        playerOneScore = 0;
+        playerScore = 0;
 
-        playerTwoScore = 0;
+        botScore = 0;
 
         gamesPlayed = 0;
 
@@ -832,206 +470,50 @@ rematchButton.addEventListener(
 );
 
 
-// new players
+// go back to the start screen
 
-newRoundButton.addEventListener(
+newPlayerButton.addEventListener(
     "click",
     () => {
 
-        playerOneScore = 0;
+        playerScore = 0;
 
-        playerTwoScore = 0;
+        botScore = 0;
 
         gamesPlayed = 0;
 
 
         roundScreen.hidden = true;
 
+        gameScreen.hidden = true;
+
         startScreen.hidden = false;
 
 
-        nameForm.innerHTML = "";
+        playerNameInput.value = "";
 
     }
 );
 
 
-// share result
+// start the game
 
-shareResultButton.addEventListener(
+startGameButton.addEventListener(
     "click",
-    async () => {
-
-        const resultText =
-            `${playerOneName} vs ${playerTwoName}\n` +
-            `Final score: ${playerOneScore} - ${playerTwoScore}\n` +
-            `Played a five-game round of Tic Tac Toe.`;
+    startRound
+);
 
 
-        if (
-            navigator.share
-        ) {
+// allow Enter to start
 
-            try {
+playerNameInput.addEventListener(
+    "keydown",
+    (event) => {
 
-                await navigator.share({
-                    title: "Tic Tac Toe",
-                    text: resultText
-                });
+        if (event.key === "Enter") {
 
-            } catch (error) {
+            startRound();
 
-                console.log(
-                    "Share cancelled."
-                );
-            }
-
-        } else {
-
-            await navigator.clipboard.writeText(
-                resultText
-            );
-
-            shareResultButton.textContent =
-                "Result Copied";
-
-            setTimeout(() => {
-
-                shareResultButton.textContent =
-                    "Share Result";
-
-            }, 1500);
         }
-    }
-);
-
-
-// reset statistics
-
-resetStatsButton.addEventListener(
-    "click",
-    () => {
-
-        const confirmed =
-            confirm(
-                "Reset all statistics?"
-            );
-
-
-        if (!confirmed) {
-            return;
-        }
-
-
-        stats = {
-            games: 0,
-            wins: 0,
-            losses: 0,
-            draws: 0,
-            currentStreak: 0,
-            bestStreak: 0
-        };
-
-
-        saveStats();
-
-    }
-);
-
-
-// theme system
-
-const themes = [
-    "",
-    "light",
-    "neon"
-];
-
-
-let currentThemeIndex = 0;
-
-
-// load saved theme
-
-const savedTheme =
-    localStorage.getItem(
-        "ticTacToeTheme"
-    );
-
-
-if (savedTheme) {
-
-    currentThemeIndex =
-        themes.indexOf(savedTheme);
-
-    if (currentThemeIndex < 0) {
-        currentThemeIndex = 0;
-    }
-
-    document.body.className =
-        savedTheme;
-}
-
-
-// change theme
-
-const changeTheme = () => {
-
-    currentThemeIndex++;
-
-    if (
-        currentThemeIndex >=
-        themes.length
-    ) {
-
-        currentThemeIndex = 0;
-    }
-
-
-    const theme =
-        themes[currentThemeIndex];
-
-
-    document.body.className =
-        theme;
-
-
-    localStorage.setItem(
-        "ticTacToeTheme",
-        theme
-    );
-};
-
-
-themeButton.addEventListener(
-    "click",
-    changeTheme
-);
-
-
-themeButtonGame.addEventListener(
-    "click",
-    changeTheme
-);
-
-
-// mode selection
-
-botModeButton.addEventListener(
-    "click",
-    () => {
-
-        showNameForm("bot");
-
-    }
-);
-
-
-multiplayerModeButton.addEventListener(
-    "click",
-    () => {
-
-        showNameForm("multiplayer");
-
     }
 );

@@ -3,87 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Tic Tac Toe</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Impossible Tic Tac Toe</title>
 </head>
 
 <body>
 
-    <!-- start screen -->
     <main id="startScreen">
-
-        <div class="topBar">
-            <button id="themeButton">Theme</button>
-        </div>
 
         <h1>Tic Tac Toe</h1>
 
         <p class="subtitle">
-            Five games. One round.
+            Can you beat the impossible bot?
         </p>
 
-        <div id="welcomeMessage"></div>
+        <div id="nameForm">
 
-        <div id="modeSelection">
+            <input
+                id="playerNameInput"
+                type="text"
+                placeholder="Enter your name"
+                autocomplete="off"
+            >
 
-            <button id="botMode">
-                Play vs Bot
-            </button>
-
-            <button id="multiplayerMode">
-                Multiplayer
+            <button id="startGame">
+                Start Game
             </button>
 
         </div>
 
-        <div id="nameForm"></div>
-
-        <section id="statsPreview">
-
-            <h2>Your Stats</h2>
-
-            <div class="statsGrid">
-
-                <div>
-                    <span id="totalGames">0</span>
-                    <small>Games</small>
-                </div>
-
-                <div>
-                    <span id="totalWins">0</span>
-                    <small>Wins</small>
-                </div>
-
-                <div>
-                    <span id="totalLosses">0</span>
-                    <small>Losses</small>
-                </div>
-
-                <div>
-                    <span id="bestStreak">0</span>
-                    <small>Best Streak</small>
-                </div>
-
-            </div>
-
-            <button id="resetStats">
-                Reset Stats
-            </button>
-
-        </section>
-
     </main>
 
 
-    <!-- game screen -->
     <main id="gameScreen" hidden>
 
         <div class="gameTopBar">
-
-            <button id="themeButtonGame">
-                Theme
-            </button>
 
             <span id="gameNumber">
                 Game 1 of 5
@@ -100,15 +59,15 @@
 
             <div class="playerScore">
 
-                <h2 id="playerOneName">
-                    Player 1
+                <h2 id="playerName">
+                    Player
                 </h2>
 
                 <span class="symbol">
                     X
                 </span>
 
-                <p id="playerOneScore">
+                <p id="playerScore">
                     0
                 </p>
 
@@ -122,15 +81,15 @@
 
             <div class="playerScore">
 
-                <h2 id="playerTwoName">
-                    Player 2
+                <h2>
+                    Impossible Bot
                 </h2>
 
                 <span class="symbol">
                     O
                 </span>
 
-                <p id="playerTwoScore">
+                <p id="botScore">
                     0
                 </p>
 
@@ -140,26 +99,22 @@
 
 
         <p id="status">
-            Player X's turn
+            Your turn
         </p>
 
 
         <div id="boardGrid"></div>
 
-
-        <p id="difficultyDisplay"></p>
-
     </main>
 
 
-    <!-- round result -->
     <main id="roundScreen" hidden>
 
         <div class="resultCard">
 
-            <div id="resultIcon">
-                WIN
-            </div>
+            <p class="resultLabel">
+                ROUND COMPLETE
+            </p>
 
             <h1 id="roundResult"></h1>
 
@@ -167,38 +122,23 @@
 
             <p id="roundMessage"></p>
 
-            <div class="resultButtons">
+            <button id="rematch">
+                Play Again
+            </button>
 
-                <button id="rematch">
-                    Rematch
-                </button>
-
-                <button id="shareResult">
-                    Share Result
-                </button>
-
-                <button id="newRound">
-                    New Players
-                </button>
-
-            </div>
+            <button id="newPlayer">
+                New Player
+            </button>
 
         </div>
 
     </main>
 
 
-    <!-- celebration overlay -->
-    <div id="celebration" hidden>
-
-        <div id="celebrationText">
-            YOU WIN
-        </div>
-
-    </div>
-
-
-    <script type="module" src="./index.js"></script>
+    <script
+        type="module"
+        src="./index.js"
+    ></script>
 
 </body>
 
